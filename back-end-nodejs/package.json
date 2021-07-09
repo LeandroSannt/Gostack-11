@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "is-uuid": "^1.0.2",
+    "isuuid": "^0.1.0",
     "nodemon": "^2.0.9",
     "uuidv4": "^6.2.11"
   }
