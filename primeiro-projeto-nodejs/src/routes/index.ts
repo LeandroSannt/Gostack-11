@@ -1,13 +1,12 @@
 import {Router} from 'express'
-import { CreateAppointmentController, GetAppointmentController } from '../controllers/AppointmentController'
+import appointmentRouter from './appointments.routes'
+import usersRouter from './users.routes'
+import sessionRouter from './session.routes'
 
 const routes = Router()
 
-
-const createAppointmentController = new CreateAppointmentController()
-const getAppointmentController = new GetAppointmentController()
-
-routes.get('/appointments',getAppointmentController.list)
-routes.post('/appointments', createAppointmentController.post )
+routes.use('/appointments',appointmentRouter)
+routes.use('/users',usersRouter)
+routes.use('/sessions',sessionRouter)
 
 export default routes;

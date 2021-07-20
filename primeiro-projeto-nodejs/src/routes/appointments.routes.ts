@@ -1,12 +1,17 @@
-// import {Router} from 'express'
-// import { CreateAppointmentController, GetAppointmentController } from '../controllers/AppointmentController'
+import { CreateAppointmentController, GetAppointmentController } from '../controllers/AppointmentController'
+import {Router} from 'express'
 
-// const  = Router()
+import ensuredAuthenticated from '../middlewares/ensureAuthenticated'
 
-// const createAppointmentController = new CreateAppointmentController()
-// const getAppointmentController = new GetAppointmentController()
+const appointmentsRouter = Router()
 
-// appointmentRouter.get('/',getAppointmentController.list)
-// appointmentRouter.post('/a', createAppointmentController.post )
+appointmentsRouter.use(ensuredAuthenticated)
 
-// export default appointmentRouter
+const createAppointmentController = new CreateAppointmentController()
+const getAppointmentController = new GetAppointmentController()
+
+appointmentsRouter.get('/',getAppointmentController.list)
+appointmentsRouter.post('/', createAppointmentController.post )
+
+
+export default appointmentsRouter
