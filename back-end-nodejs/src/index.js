@@ -1,10 +1,12 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid');
 
+const cors = require('cors')
+
 const isuuid = require('isuuid');
 
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 
 app.use("/projects/:id",validateProjectId)
