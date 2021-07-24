@@ -35,6 +35,8 @@ class GetAppointmentController{
   async list(request:Request, response:Response){
     const appointmentsRepository = getCustomRepository(AppointmentsRepository)
 
+    console.log(request.user)
+
     const appointments = await appointmentsRepository.find()
 
     return response.json(appointments)

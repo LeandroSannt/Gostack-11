@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 
 import AuthenticateUserService from "../services/AuthenticateUserService";
 
-import {compare} from 'bcryptjs'
-
 class SessionController {
   async post(request:Request, response:Response){
     try{

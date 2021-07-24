@@ -3,13 +3,13 @@ import {verify} from 'jsonwebtoken'
 
 import authconfig from '../config/auth'
 
-interface Authenticate{
-  request:Request,
-  response:Response,
-  next:NextFunction
+interface tokenPayload{
+  iat:number
+  exp:number
+  sub:string
 }
 
-export default function ensuredAuthenticated({request,response,next}:Authenticate): void{
+export default function ensuredAuthenticated(request:Request,response:Response,next:NextFunction): void{
 
   const authHeader = request.headers.authorization
 
@@ -17,12 +17,16 @@ export default function ensuredAuthenticated({request,response,next}:Authenticat
     throw new Error('JWT is missing')
   }
 
-  const [,token] = authHeader.split('')
+  const [,token] = authHeader.split(' ')
 
   try{
   const decoded = verify(token, authconfig.jwt.secret)
 
-  console.log(decoded)
+  const { sub } = decoded as tokenPayload
+
+  request.user = {
+    id :sub
+  }
 
   return next()
 
