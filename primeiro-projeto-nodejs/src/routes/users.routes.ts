@@ -3,6 +3,7 @@ import multer from 'multer'
 import uploadConfig from '../config/upload'
 import { UpdateAvatarController, CreateUserController } from '../controllers/CreateUserController'
 
+
 import ensuredAuthenticated from '../middlewares/ensureAuthenticated'
 
 const upload = multer(uploadConfig)
