@@ -26,4 +26,19 @@ class CreateUserController {
 
 }
 
-export {CreateUserController}
+class UpdateAvatarController{
+  async post(request:Request, response:Response){
+    try{
+
+      console.log(request.file)
+
+      return response.json({ok:true})
+
+    }catch(err){
+      return response.status(400).json({error:err.message})
+    }
+  }
+
+}
+
+export {CreateUserController,UpdateAvatarController}
