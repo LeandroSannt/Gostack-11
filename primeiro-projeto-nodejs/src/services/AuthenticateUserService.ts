@@ -1,6 +1,7 @@
 import {getRepository} from 'typeorm'
 import User from '../models/User'
 import authconfig from '../config/auth'
+import AppError from '../errors/AppErros'
 
 import {sign} from 'jsonwebtoken'
 
@@ -23,13 +24,13 @@ class AuthenticateUserService{
     const user = await usersRepository.findOne({where:{email}})
 
     if(!user){
-      throw new Error('not user')
+      throw new AppError('not user',401)
     }
 
     const passwordMatched = await compare(password, user.password)
 
     if(!passwordMatched){
-      throw new Error('Incorrect email/password combination')
+      throw new AppError('Incorrect email/password combination',401)
 
     }
 

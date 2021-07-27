@@ -8,7 +8,6 @@ import {parseISO} from 'date-fns'
 
 class CreateAppointmentController {
   async post(request:Request, response:Response){
-    try{
 
       const {provider_id,date} = request.body
 
@@ -22,20 +21,12 @@ class CreateAppointmentController {
       })
 
       return response.json(appointment)
-
-    }catch(err){
-
-      return response.status(400).json({error:err.message})
-    }
   }
-
 }
 
 class GetAppointmentController{
   async list(request:Request, response:Response){
     const appointmentsRepository = getCustomRepository(AppointmentsRepository)
-
-    console.log(request.user)
 
     const appointments = await appointmentsRepository.find()
 
