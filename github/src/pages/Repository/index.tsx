@@ -1,16 +1,13 @@
-import React from 'react'
+import React, {useState,FormEvent, useEffect} from 'react'
 
 import api from '../../services/api'
 
-
-import {useRouteMatch, Link} from 'react-router-dom'
+import {useRouteMatch, Link,useParams} from 'react-router-dom'
 
 import {Header,RepositoryInfo,Issues} from './styles'
 import logo from '../../assets/github2.svg'
 
 import {FiChevronRight, FiChevronLeft} from 'react-icons/fi'
-
-
 
 
 interface RepositoryParams {
@@ -20,15 +17,29 @@ interface RepositoryParams {
 
 interface infos {
   forks:number
+  stargazers_count:number
+  watchers:number
+
 }
 
 
 const Repository: React.FC = () => {
   const {params} = useRouteMatch<RepositoryParams>()
 
+  const [repo,setRepo] = useState<infos[]>({fork})
 
+    useEffect(() => {
+      async function loadRepository() {
+        const response = await api.get<infos>(`repos/${params.repository}`)
 
+        const repositoryy = response.data
+        console.log(repository)
 
+        setRepo(repositoryy)
+
+      }
+      loadRepository()
+    },[params])
 
   return(
     <>
@@ -51,12 +62,12 @@ const Repository: React.FC = () => {
       </header>
       <ul>
         <li>
-          <strong>18008</strong>
+          <strong>{repo?.stargazers_count}</strong>
           <span>Stars</span>
         </li>
 
         <li>
-          <strong>48</strong>
+          <strong>{repo?.}</strong>
           <span>Forks</span>
         </li>
 
@@ -72,7 +83,7 @@ const Repository: React.FC = () => {
     <Issues>
        <Link to="egweg">
         <div>
-          <strong></strong>
+          <strong>{}</strong>
           <p></p>
         </div>
 
