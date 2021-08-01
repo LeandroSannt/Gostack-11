@@ -15,10 +15,17 @@ interface RepositoryParams {
 }
 
 
-interface infos {
-  forks:number
-  stargazers_count:number
-  watchers:number
+interface Infos {
+  forks:number;
+  stargazers_count:number;
+  watchers:number;
+  full_name: string;
+  description: string;
+  owner:{
+    login:string;
+    avatar_url:string;
+    repos_url:string;
+  }
 
 }
 
@@ -26,20 +33,31 @@ interface infos {
 const Repository: React.FC = () => {
   const {params} = useRouteMatch<RepositoryParams>()
 
-  const [repo,setRepo] = useState<infos[]>({fork})
+  const [repo,setRepo] = useState<Infos>()
+  const [userRepo,setUserRepo] = useState<Infos>()
 
     useEffect(() => {
       async function loadRepository() {
-        const response = await api.get<infos>(`repos/${params.repository}`)
+        const response = await api.get<Infos>(`repos/${params.repository}`)
 
-        const repositoryy = response.data
+        const repository = response.data;
         console.log(repository)
 
-        setRepo(repositoryy)
+        setRepo(repository)
 
       }
       loadRepository()
     },[params])
+
+    useEffect(() => {
+      async function listRepositories() {
+        const response = await api.get<Infos>(`users/${repo?.owner.login}/repos`)
+        console.log(response.data)
+
+        setUserRepo(response.data)
+      }
+      listRepositories()
+    },[])
 
   return(
     <>
@@ -54,10 +72,10 @@ const Repository: React.FC = () => {
 
     <RepositoryInfo >
       <header>
-        <img src="https://avatars.githubusercontent.com/u/38533080?v=4" alt="rocketseat" />
+        <img src={repo?.owner.avatar_url} alt={repo?.full_name} />
         <div>
-          <strong>Rocketseat/unform</strong>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi cum delectus</p>
+          <strong>{repo?.full_name }</strong>
+          <p>{repo?.description}</p>
         </div>
       </header>
       <ul>
@@ -67,12 +85,12 @@ const Repository: React.FC = () => {
         </li>
 
         <li>
-          <strong>{repo?.}</strong>
+          <strong>{repo?.forks}</strong>
           <span>Forks</span>
         </li>
 
         <li>
-          <strong>67</strong>
+          <strong>{repo?.watchers}</strong>
           <span>Issues</span>
         </li>
 
@@ -82,6 +100,8 @@ const Repository: React.FC = () => {
 
     <Issues>
        <Link to="egweg">
+
+
         <div>
           <strong>{}</strong>
           <p></p>
