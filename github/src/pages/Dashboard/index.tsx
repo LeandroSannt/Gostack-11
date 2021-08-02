@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
   const [newRepo,setNewRepo] = useState("")
   const [inputError, setInputError] = useState("")
 
-  useEffect(() => {
+  useEffect(()   => {
     localStorage.setItem('@githubExplorer:repositories', JSON.stringify(repositories))
   },[repositories])
 
