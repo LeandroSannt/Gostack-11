@@ -57,6 +57,8 @@ const Input: React.FC<InputProps> = ({name,icon:Icon, ...rest}) => {
       ref={inputRef} 
       className="color" 
       {...rest} />
+
+      {error}
   </Container>
   )
   }
