@@ -6,7 +6,7 @@ import SignUp from './pages/SingUp'
 function App() {
   return (
     <>
-    <SignUp/>
+    <SignIn/>
     <GlobalStyle/>
      
     </>
