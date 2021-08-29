@@ -26,7 +26,8 @@ const SignIn: React.FC = () => {
 
   const formRef= useRef<FormHandles>(null)
 
-  const {signIn} = useContext(AuthContext)
+  const {signIn,user} = useContext(AuthContext)
+  console.log(user)
 
 //função para validar os campos do formulario
  const handleSubmit= useCallback(async(data:SignInFormData) =>{
