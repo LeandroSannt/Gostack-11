@@ -1,8 +1,9 @@
-import React, {useCallback,useRef,useContext}  from 'react';
+import React, {useCallback,useRef}  from 'react';
 import {Container,Content,Background} from './styles'
 import {FiLogIn,FiMail,FiLock} from 'react-icons/fi'
 
-import {AuthContext} from '../../context/AuthContext';
+import {useAuth} from '../../hooks/AuthContext';
+import {useToast} from '../../hooks/ToastContext';
 
 import {Form} from "@unform/web"
 
@@ -16,17 +17,19 @@ import * as Yup from 'yup'
 
 import getValidationErrors from '../../utils/getValidationErros'
 
+
+
 interface SignInFormData{
   email: string
   password: string
 }
 
-
 const SignIn: React.FC = () => {
 
   const formRef= useRef<FormHandles>(null)
 
-  const {signIn,user} = useContext(AuthContext)
+  const {signIn,user} = useAuth()
+  const {addToast} = useToast()
   console.log(user)
 
 //função para validar os campos do formulario
@@ -43,15 +46,19 @@ const SignIn: React.FC = () => {
       await schema.validate(data,{
         abortEarly:false
       })
-      signIn({
+      await signIn({
         email:data.email,
         password:data.password
       })
     }catch(err){
-      const errors = getValidationErrors(err)
-      formRef.current?.setErrors(errors);
+      if(err instanceof Yup.ValidationError){
+        const errors = getValidationErrors(err)
+        formRef.current?.setErrors(errors);
+      }
+      addToast()
+      
     }
-  },[signIn])
+  },[signIn,addToast])
   return(
 
     <Container>

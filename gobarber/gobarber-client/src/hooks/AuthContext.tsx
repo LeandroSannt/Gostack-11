@@ -1,4 +1,4 @@
-import React,{createContext,useCallback, useState} from 'react'
+import React,{createContext,useCallback, useState,useContext} from 'react'
 
 import api from '../services/api'
 
@@ -10,6 +10,7 @@ interface SignInCredentials{
 interface AuthContextState{
   user:Object;
   signIn(credentials:SignInCredentials):Promise<void>;
+  signOut():void;
 }
 
 interface AuthState{
@@ -23,7 +24,7 @@ const AuthContext = createContext<AuthContextState>({} as AuthContextState)
 const AuthProvider:React.FC = ({children}) => {
 
   const [data,setData] =useState<AuthState>(()=>{
-   const token = localStorage.getItem("@GoBarber:token")
+    const token = localStorage.getItem("@GoBarber:token")
     const user =localStorage.getItem("@GoBarber")
 
     if(token && user){
@@ -47,11 +48,28 @@ const AuthProvider:React.FC = ({children}) => {
     setData({token,user})
   }, [])
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem("@GoBarber:token")
+    localStorage.removeItem("@GoBarber")
+
+    setData({} as AuthState)
+
+  },[])
+
   return (
-    <AuthContext.Provider value ={{user:data.user, signIn}}>
+    <AuthContext.Provider value ={{user:data.user, signIn,signOut}}>
      {children}
      </AuthContext.Provider>
   )
 }
 
-export {AuthProvider,AuthContext}
+function useAuth(): AuthContextState{
+  const context = useContext(AuthContext)
+
+  if(!context) {
+    throw new Error('insira o authprovider ao redor do seu elemento')
+  }
+  return context
+}
+
+export {AuthProvider, useAuth}
