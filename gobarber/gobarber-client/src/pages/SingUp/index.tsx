@@ -1,11 +1,10 @@
 import React, {useCallback,useRef} from 'react';
-import {Container,Content,Background} from './styles'
+import {Container,Content,Background, AnimationContainer} from './styles'
 import {FormHandles} from '@unform/core'
 import {FiArrowLeft,FiMail,FiLock,FiUser} from 'react-icons/fi'
 import * as Yup from 'yup'
 
-import {Link} from 'react-router-dom'
-
+import {Link, useHistory} from 'react-router-dom'
 
 import getValidationErrors from '../../utils/getValidationErros'
 
@@ -15,12 +14,24 @@ import Button from '../../components/Button'
 import imgLogo from '../../assets/logo.svg'
 import {Form} from '@unform/web'
 
+import api from '../../services/api'
+
+import {useToast} from '../../hooks/ToastContext'
+
+interface SignUpData{
+  name:string;
+  email:string;
+  password:string;
+}
 
 const SignUp: React.FC = () => {
   const formRef= useRef<FormHandles>(null)
 
+  const {addToast} = useToast()
+  const history = useHistory()
+
 //função para validar os campos do formulario
- const handleSubmit= useCallback(async(data:object) =>{
+ const handleSubmit= useCallback(async(data:SignUpData) =>{
     try{
 
       formRef.current?.setErrors({});
@@ -34,19 +45,39 @@ const SignUp: React.FC = () => {
       await schema.validate(data,{
         abortEarly:false
       })
+
+      await api.post ('/users',data,)
+
+      history.push('/')
+
+      addToast({
+        type:"success",
+        title:"Cadastro realizado",
+        description:'voce ja pode fazer seu logon'
+      })
+
+
       
     }catch(err){
       if(err instanceof Yup.ValidationError){
         const errors = getValidationErrors(err)
         formRef.current?.setErrors(errors);
+
+        return
       }
+      addToast({
+        type:'error',
+        title:'Erro no cadastro',
+        description:'Ocorreu um error ao fazer o cadastro'
+      })
     }
-  },[])
+  },[addToast,history])
 
   return(
     <Container>
       <Background></Background>
         <Content>
+          <AnimationContainer>
             <img src={imgLogo} alt="Gobarber" />
 
             <Form ref={formRef} onSubmit={handleSubmit}>
@@ -61,6 +92,7 @@ const SignUp: React.FC = () => {
                 <FiArrowLeft/>
                 Volta para logon
             </Link>
+            </AnimationContainer>
         </Content>
     </Container>
     )
