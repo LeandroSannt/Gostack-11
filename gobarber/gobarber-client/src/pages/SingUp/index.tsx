@@ -4,6 +4,9 @@ import {FormHandles} from '@unform/core'
 import {FiArrowLeft,FiMail,FiLock,FiUser} from 'react-icons/fi'
 import * as Yup from 'yup'
 
+import {Link} from 'react-router-dom'
+
+
 import getValidationErrors from '../../utils/getValidationErros'
 
 import Input from '../../components/Input'
@@ -33,8 +36,10 @@ const SignUp: React.FC = () => {
       })
       
     }catch(err){
-      const errors = getValidationErrors(err)
-      formRef.current?.setErrors(errors);
+      if(err instanceof Yup.ValidationError){
+        const errors = getValidationErrors(err)
+        formRef.current?.setErrors(errors);
+      }
     }
   },[])
 
@@ -52,10 +57,10 @@ const SignUp: React.FC = () => {
                 <Button type="submit">Cadastar</Button>
             </Form>
 
-            <a href="Criar conta">
+            <Link to ="/">
                 <FiArrowLeft/>
                 Volta para logon
-            </a>
+            </Link>
         </Content>
     </Container>
     )

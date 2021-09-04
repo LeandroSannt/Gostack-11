@@ -1,6 +1,8 @@
 import React, {useCallback,useRef}  from 'react';
-import {Container,Content,Background} from './styles'
+import {Container,Content,Background,AnimationContainer} from './styles'
 import {FiLogIn,FiMail,FiLock} from 'react-icons/fi'
+
+import {Link} from 'react-router-dom'
 
 import {useAuth} from '../../hooks/AuthContext';
 import {useToast} from '../../hooks/ToastContext';
@@ -67,6 +69,7 @@ const SignIn: React.FC = () => {
 
     <Container>
         <Content>
+          <AnimationContainer>
             <img src={imgLogo} alt="Gobarber" />
 
             <Form ref={formRef} onSubmit={handleSubmit}>
@@ -78,10 +81,11 @@ const SignIn: React.FC = () => {
                 <a href="forgot">Esqueci minha senha</a>
             </Form>
 
-            <a href="Criar conta">
+            <Link to ="/session/SingUp">
                 <FiLogIn/>
                 Criar conta
-            </a>
+            </Link>
+            </AnimationContainer>
         </Content>
         <Background></Background>
 
