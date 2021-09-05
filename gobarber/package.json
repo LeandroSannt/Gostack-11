@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-spring": "^9.2.4",
-    "uuidv4": "^6.2.12"
-  }
-}
