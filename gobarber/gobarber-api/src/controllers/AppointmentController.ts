@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { CreateAppointmentService } from '@modules/appointments/services/CreateAppointmentService'
 
 import {getCustomRepository} from 'typeorm'
-import AppointmentsRepository from '@modules/appointments/repositories/AppointmentsRepository'
+import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository'
 
 import {parseISO} from 'date-fns'
 
