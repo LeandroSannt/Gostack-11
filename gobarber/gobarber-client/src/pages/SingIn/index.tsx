@@ -32,7 +32,6 @@ const SignIn: React.FC = () => {
 
   const {signIn,user} = useAuth()
   const {addToast} = useToast()
-  console.log(user)
 
 //função para validar os campos do formulario
  const handleSubmit= useCallback(async(data:SignInFormData) =>{
@@ -46,7 +45,7 @@ const SignIn: React.FC = () => {
       })
 
       await schema.validate(data,{
-        abortEarly:false
+        abortEarly:false  
       })
       await signIn({
         email:data.email,

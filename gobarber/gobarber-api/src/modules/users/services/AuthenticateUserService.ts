@@ -1,7 +1,7 @@
 import {getRepository} from 'typeorm'
-import User from '../models/User'
-import authconfig from '../config/auth'
-import AppError from '../errors/AppErros'
+import User from '../infra/typeorm/entities/User'
+import authconfig from '@config/auth'
+import AppError from '@shared/errors/AppErros'
 
 import {sign} from 'jsonwebtoken'
 

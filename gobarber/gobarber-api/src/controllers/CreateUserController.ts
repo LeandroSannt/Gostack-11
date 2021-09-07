@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CreateUserService } from '../services/CreateUserService'
-import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService'
+import { CreateUserService } from '@modules/users/services/CreateUserService'
+import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService'
 
 class CreateUserController {
   async post(request:Request, response:Response){

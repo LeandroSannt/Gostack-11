@@ -1,7 +1,7 @@
-import { CreateAppointmentController, GetAppointmentController } from '../controllers/AppointmentController'
+import { CreateAppointmentController, GetAppointmentController } from '../../../../../controllers/AppointmentController'
 import {Router} from 'express'
 
-import ensuredAuthenticated from '../middlewares/ensureAuthenticated'
+import ensuredAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated'
 
 const appointmentsRouter = Router()
 

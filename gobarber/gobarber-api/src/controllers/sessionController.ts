@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import AuthenticateUserService from "../services/AuthenticateUserService";
+import AuthenticateUserService from "@modules/users/services/AuthenticateUserService";
 
 class SessionController {
   async post(request:Request, response:Response){
