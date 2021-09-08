@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { CreateAppointmentService } from '@modules/appointments/services/CreateAppointmentService'
+import {container} from 'tsyringe'
 
-import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository'
 
 import {parseISO} from 'date-fns'
 
-const appointmentsRepository = new AppointmentsRepository()
+// const appointmentsRepository = new AppointmentsRepository()
 
 class CreateAppointmentController {
-
 
   async post(request:Request, response:Response){
 
@@ -16,7 +15,7 @@ class CreateAppointmentController {
 
       const parsedDate = parseISO(date)
 
-      const createAppointment = new CreateAppointmentService(appointmentsRepository)
+      const createAppointment = container.resolve(CreateAppointmentService)
 
       const appointment = await createAppointment.execute({
         date:parsedDate,

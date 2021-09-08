@@ -1,6 +1,7 @@
 import User from '../infra/typeorm/entities/User'
 
 import  IUsersRepository  from "../repositories/IUsersRepository";
+import {injectable,inject} from 'tsyringe'
 
 
 import AppError from '@shared/errors/AppErros'
@@ -12,12 +13,11 @@ interface Request{
   password:string,
   email:string
 }
+
+@injectable()
 class CreateUserService{
 
-  constructor(
-    private usersRepository:IUsersRepository,
-   ){
-   }
+  constructor(@inject('UserRepository') private usersRepository:IUsersRepository,){}
    public async execute({name,email,password}:Request):Promise<User>{
 
      const checkUserExists = await this.usersRepository.findByEmail(email)

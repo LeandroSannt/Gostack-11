@@ -4,13 +4,15 @@ import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvata
 
 import UsersRepository from "@modules/users/infra/typeorm/repositories/UsersRepository"
 
-const usersRepository = new UsersRepository()
+import {container} from 'tsyringe'
+
+// const usersRepository = new UsersRepository()
 
 class CreateUserController {
   async post(request:Request, response:Response){
       const {name, email, password} = request.body
 
-      const createUser = new CreateUserService(usersRepository)
+      const createUser = container.resolve(CreateUserService)
 
       const user = await createUser.execute({
         name,
@@ -27,7 +29,7 @@ class CreateUserController {
 
 class UpdateAvatarController{
   async post(request:Request, response:Response){
-    const updatedUserAvatar = new UpdateUserAvatarService(usersRepository)
+    const updatedUserAvatar = container.resolve(UpdateUserAvatarService)
 
      const user =  await updatedUserAvatar.execute({
         user_id:request.user.id,
