@@ -18,7 +18,7 @@ interface Request{
 @injectable()
 class UpdateUserAvatarService{
 
-  constructor(@inject('UserRepository') private usersRepository:IUsersRepository,){}
+  constructor(@inject('UsersRepository') private usersRepository:IUsersRepository,){}
 
   public async execute({user_id,avatarFilename}:Request):Promise<User>{
 

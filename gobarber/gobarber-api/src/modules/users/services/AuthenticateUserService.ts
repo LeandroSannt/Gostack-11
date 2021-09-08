@@ -21,7 +21,7 @@ interface Response{
 @injectable()
 class AuthenticateUserService{
 
-  constructor(@inject('UserRepository') private usersRepository:IUsersRepository,){}
+  constructor(@inject('UsersRepository') private usersRepository:IUsersRepository,){}
 
   public async execute({ email, password}:Request):Promise<Response>{
 

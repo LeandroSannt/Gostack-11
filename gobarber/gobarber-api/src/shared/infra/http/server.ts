@@ -2,8 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import "express-async-errors";
 import routes from './routes'
 import uploadConfig from '@config/upload'
-import "@shared/container"
 import "reflect-metadata"
+import "@shared/container"
 import "@shared/infra/typeorm"
 import AppError from '@shared/errors/AppErros'
 import cors from 'cors'

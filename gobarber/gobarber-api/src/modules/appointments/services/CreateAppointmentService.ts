@@ -1,7 +1,7 @@
 import 'reflect-metadata';
+import {injectable,inject} from 'tsyringe'
 import Appointment from "@modules/appointments/infra/typeorm/entities/Appointment";
 import { IAppointmentRepository } from "../repositories/IAppointmentsRepository";
-import {injectable,inject} from 'tsyringe'
 
 import AppError from '@shared/errors/AppErros'
 
@@ -15,7 +15,7 @@ interface Request{
 @injectable()
 class CreateAppointmentService{
   constructor(
-    @inject('AppointmentRepository')
+    @inject('AppointmentsRepository')
 
    private appointmentsRepository:IAppointmentRepository,
   ){
