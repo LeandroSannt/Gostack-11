@@ -5,9 +5,10 @@ import {injectable,inject} from 'tsyringe'
 
 import  IUsersRepository  from "../repositories/IUsersRepository";
 
+import IHashProvider  from '../providers/HashProvider/models/IHashProvider'
+
 import {sign} from 'jsonwebtoken'
 
-import {compare} from 'bcryptjs'
 
 interface Request{
   email:string
@@ -21,7 +22,14 @@ interface Response{
 @injectable()
 class AuthenticateUserService{
 
-  constructor(@inject('UsersRepository') private usersRepository:IUsersRepository,){}
+  constructor(
+    @inject('UsersRepository')
+     private usersRepository:IUsersRepository,
+
+    @inject('HashProvider')
+    private hashprovider: IHashProvider,
+
+     ){}
 
   public async execute({ email, password}:Request):Promise<Response>{
 
@@ -31,7 +39,7 @@ class AuthenticateUserService{
       throw new AppError('not user',401)
     }
 
-    const passwordMatched = await compare(password, user.password)
+    const passwordMatched = await this.hashprovider.compareHash(password, user.password)
 
     if(!passwordMatched){
       throw new AppError('Incorrect email/password combination',401)
